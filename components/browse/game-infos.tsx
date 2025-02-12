@@ -24,7 +24,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 		if (Object.keys(gameInfos[0].current.major.audio_pkgs).length === 0) {
 			setNoAudio(true);
 		}
-	})
+	}, [gameInfos])
 
 	const goBack = () => {
 		// lazy to clear selected game
@@ -53,7 +53,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 								<TabsTrigger value="full">Live game</TabsTrigger>
 
 								{gameInfos[0].current.patches.map((e: any, i: number) => (
-									<TabsTrigger value={`update-${i}`}>{gameInfos[0].current.patches[i].version} -&gt; {gameInfos[0].current.major.version}</TabsTrigger>
+									<TabsTrigger key={i} value={`update-${i}`}>{gameInfos[0].current.patches[i].version} -&gt; {gameInfos[0].current.major.version}</TabsTrigger>
 								))}
 							</TabsList>
 						</div>
@@ -84,7 +84,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 									{!noAudio && (
 										<>
 											{audioHelp.map((e: any) => (
-												<TabsContent value={e[0]}>
+												<TabsContent key={e[0]} value={e[0]}>
 													<PackagesRenderer packages={[gameInfos[0].current.major.audio_pkgs[e[1]]]} version={gameInfos[0].current.major.version} />
 												</TabsContent>
 											))}
@@ -95,7 +95,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 						</TabsContent>
 
 						{gameInfos[0].current.patches.map((e: any, i: number) => (
-							<TabsContent value={`update-${i}`}>
+							<TabsContent key={i} value={`update-${i}`}>
 								<>
 									<Tabs defaultValue="game" className="w-full">
 										<div className="w-full flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 										{!noAudio && (
 											<>
 												{audioHelp.map((e: any) => (
-													<TabsContent value={e[0]}>
+													<TabsContent key={e[0]} value={e[0]}>
 														<PackagesRenderer packages={[gameInfos[0].current.patches[i].audio_pkgs[e[1]]]} version={gameInfos[0].current.patches[i].version} />
 													</TabsContent>
 												))}

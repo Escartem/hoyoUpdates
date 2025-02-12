@@ -41,7 +41,7 @@ export default function GameList({launcherId, games, setGames, setSelectedGame, 
 					<span className="opacity-[65%] block mb-2">Select the game you need bellow~</span>
 					
 					{Object.entries(games[0]).map((e: any) => (
-						<DButton callback={() => {handleClick(e[0])}}>
+						<DButton key={e[0]} callback={() => {handleClick(e[0])}}>
 							<Image className="rounded-md mr-2 pointer-events-none" src={e[1].icon} width={32} height={32} alt="game icon"></Image>
 							<span>{e[1].name}</span>
 						</DButton>

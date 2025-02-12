@@ -16,7 +16,7 @@ export default function PackagesRenderer({packages, version}: {packages: any, ve
             
             <div className="grid grid-cols-3 gap-2 mt-2 mb-2">
                 {packages.map((e: any, i: number) => (
-                    <a target="_blank" className="border-2 border-neutral-600 hover:border-neutral-400 hover:cursor-pointer transition p-2 rounded-md" href={e.url}>
+                    <a key={i} target="_blank" className="border-2 border-neutral-600 hover:border-neutral-400 hover:cursor-pointer transition p-2 rounded-md" href={e.url}>
                         #{i+1} - {convertSize(e.size)}
                     </a>
                 ))}
