@@ -7,7 +7,7 @@ export function convertSize(size: string | number | undefined, precision: number
         return '0 B';
     }
 
-    var isize = typeof(size) === "number" ? size : parseInt(size);
+    const isize = typeof(size) === "number" ? size : parseInt(size);
 
     if (isize < 1024) {
         return `${isize} B`
