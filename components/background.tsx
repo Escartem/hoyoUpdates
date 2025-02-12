@@ -18,7 +18,7 @@ export default function Background({ url }: { url: string }) {
 				setLoaded(true);
 			};
 		}
-	}, [url]);
+	}, [url, src]);
 
 	return (
 		<div className="absolute z-[0] w-full h-full pointer-events-none saturate-[0.4] blur-[3px] opacity-[0.6]">
