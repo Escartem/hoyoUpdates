@@ -99,7 +99,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 								<>
 									<Tabs defaultValue="game" className="w-full">
 										<div className="w-full flex items-center justify-center">
-											<TabsList className="border-2 border-neutral-700">
+											<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
 												<TabsTrigger value="game">Base game</TabsTrigger>
 												{!noAudio && (
 													<>
