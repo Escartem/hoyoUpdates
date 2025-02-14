@@ -15,7 +15,7 @@ export default function StartPage({setLauncherId, appState, setState}: {setLaunc
 	
 	return (
 		<Container>
-			<span className="text-white/60">A simple web tool to retrieve all updates links of hoyo games. To begin, enter the launcher id, the default one is &quot;<span className="text-white/95 select-all">VYTpXlbWo8</span>&quot; but you can use another one if you want.</span>
+			<span className="text-white/60">Please enter the launcher id, the default one is &quot;<span className="text-white/95 select-all">VYTpXlbWo8</span>&quot; but you can use another one if you want.</span>
 			
 			{appState === -1 && (
 				<span className="text-red-400 block mb-[-10px]"><br/>Invalid launcher id</span>

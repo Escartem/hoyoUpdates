@@ -8,8 +8,8 @@ import Background from "@/components/background";
 
 export default function Home() {
 	// use all states in root and pass down as props (useful ?)
-	const [appState, setAppState] = useState(0);
-	const [launcherId, setLauncherId] = useState("");
+	const [appState, setAppState] = useState(1);
+	const [launcherId, setLauncherId] = useState("VYTpXlbWo8");
 	const [games, setGames] = useState([]);
 	const [selectedGame, setSelectedGame] = useState("");
 	const [background, setBackground] = useState("/background.webp");

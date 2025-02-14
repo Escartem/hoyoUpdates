@@ -38,7 +38,7 @@ export default function GameList({launcherId, games, setGames, setSelectedGame, 
 
 			{games.length !== 0 && (
 				<>
-					<span className="opacity-[65%] block mb-2">Select the game you need bellow~</span>
+					<span className="opacity-[65%] block mb-2">A simple web tool to retrieve all updates links of hoyo games. To begin, please select the game you need bellow~</span>
 					
 					{Object.entries(games[0]).map((e: any) => (
 						<DButton key={e[0]} callback={() => {handleClick(e[0])}}>
