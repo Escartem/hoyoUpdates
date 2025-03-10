@@ -77,7 +77,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 }
 
 function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, noAudio: boolean, audioHelp: any, isPre: boolean}) {
-	var infos = isPre ? gameInfos[0].pre_download : gameInfos[0].current;
+	let infos = isPre ? gameInfos[0].pre_download : gameInfos[0].current;
 	
 	return (
 		<>
