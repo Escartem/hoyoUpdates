@@ -47,91 +47,24 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 					<Line />
 
-					<Tabs defaultValue="full" className="w-full">
-						<div className="w-full flex items-center justify-center">
-							<TabsList className="border-2 border-neutral-700">
-								<TabsTrigger value="full">Live game</TabsTrigger>
+					<Tabs defaultValue="current" className="w-full">
+						{
+							gameInfos[0].pre_download.major != null && (
+								<div className="w-full flex items-center justify-center">
+									<TabsList className="border-2 border-neutral-700">
+										<TabsTrigger value="current">Current version</TabsTrigger>
+										<TabsTrigger value="pre">Pre-download</TabsTrigger>
+									</TabsList>
+								</div>
+							)
+						}
 
-								{gameInfos[0].current.patches.map((e: any, i: number) => (
-									<TabsTrigger key={i} value={`update-${i}`}>{gameInfos[0].current.patches[i].version} -&gt; {gameInfos[0].current.major.version}</TabsTrigger>
-								))}
-							</TabsList>
-						</div>
-
-						<TabsContent value="full">
-							<>
-								<Tabs defaultValue="game" className="w-full">
-									<div className="w-full flex items-center justify-center">
-										<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
-											<TabsTrigger value="game">Base game</TabsTrigger>
-											{!noAudio && (
-												<>
-													<TabsTrigger value="english">English</TabsTrigger>
-													<TabsTrigger value="chinese">Chinese</TabsTrigger>
-													<TabsTrigger value="japanese">Japanese</TabsTrigger>
-													<TabsTrigger value="korean">Korean</TabsTrigger>
-												</>
-											)}
-										</TabsList>
-									</div>
-
-									<Line />
-
-									<TabsContent value="game">
-										<PackagesRenderer packages={gameInfos[0].current.major.game_pkgs} version={gameInfos[0].current.major.version} />
-									</TabsContent>
-
-									{!noAudio && (
-										<>
-											{audioHelp.map((e: any) => (
-												<TabsContent key={e[0]} value={e[0]}>
-													<PackagesRenderer packages={[gameInfos[0].current.major.audio_pkgs[e[1]]]} version={gameInfos[0].current.major.version} />
-												</TabsContent>
-											))}
-										</>
-									)}
-								</Tabs>
-							</>
+						<TabsContent value="current">
+							<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={false} />
 						</TabsContent>
-
-						{gameInfos[0].current.patches.map((e: any, i: number) => (
-							<TabsContent key={i} value={`update-${i}`}>
-								<>
-									<Tabs defaultValue="game" className="w-full">
-										<div className="w-full flex items-center justify-center">
-											<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
-												<TabsTrigger value="game">Base game</TabsTrigger>
-												{!noAudio && (
-													<>
-														<TabsTrigger value="english">English</TabsTrigger>
-														<TabsTrigger value="chinese">Chinese</TabsTrigger>
-														<TabsTrigger value="japanese">Japanese</TabsTrigger>
-														<TabsTrigger value="korean">Korean</TabsTrigger>
-													</>
-												)}
-											</TabsList>
-										</div>
-
-										<Line />
-
-										<TabsContent value="game">
-											<PackagesRenderer packages={gameInfos[0].current.patches[i].game_pkgs} version={gameInfos[0].current.patches[i].version} />
-										</TabsContent>
-
-										{!noAudio && (
-											<>
-												{audioHelp.map((e: any) => (
-													<TabsContent key={e[0]} value={e[0]}>
-														<PackagesRenderer packages={[gameInfos[0].current.patches[i].audio_pkgs[e[1]]]} version={gameInfos[0].current.patches[i].version} />
-													</TabsContent>
-												))}
-											</>
-										)}
-									</Tabs>
-								</>
-							</TabsContent>
-						))}
-
+						<TabsContent value="pre">
+							<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={true} />
+						</TabsContent>
 					</Tabs>
 
 					<Line />
@@ -140,5 +73,99 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 				</>
 			)}
 		</Container>
+	)
+}
+
+function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, noAudio: boolean, audioHelp: any, isPre: boolean}) {
+	var infos = isPre ? gameInfos[0].pre_download : gameInfos[0].current;
+	
+	return (
+		<>
+			<Tabs defaultValue="full" className="w-full">
+				<div className="w-full flex items-center justify-center">
+					<TabsList className="border-2 border-neutral-700">
+						<TabsTrigger value="full">Live game</TabsTrigger>
+
+						{infos.patches.map((e: any, i: number) => (
+							<TabsTrigger key={i} value={`update-${i}`}>{infos.patches[i].version} -&gt; {infos.major.version}</TabsTrigger>
+						))}
+					</TabsList>
+				</div>
+
+				<TabsContent value="full">
+					<>
+						<Tabs defaultValue="game" className="w-full">
+							<div className="w-full flex items-center justify-center">
+								<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
+									<TabsTrigger value="game">Base game</TabsTrigger>
+									{!noAudio && (
+										<>
+											<TabsTrigger value="english">English</TabsTrigger>
+											<TabsTrigger value="chinese">Chinese</TabsTrigger>
+											<TabsTrigger value="japanese">Japanese</TabsTrigger>
+											<TabsTrigger value="korean">Korean</TabsTrigger>
+										</>
+									)}
+								</TabsList>
+							</div>
+
+							<Line />
+
+							<TabsContent value="game">
+								<PackagesRenderer packages={infos.major.game_pkgs} version={infos.major.version} />
+							</TabsContent>
+
+							{!noAudio && (
+								<>
+									{audioHelp.map((e: any) => (
+										<TabsContent key={e[0]} value={e[0]}>
+											<PackagesRenderer packages={[infos.major.audio_pkgs[e[1]]]} version={infos.major.version} />
+										</TabsContent>
+									))}
+								</>
+							)}
+						</Tabs>
+					</>
+				</TabsContent>
+
+				{infos.patches.map((e: any, i: number) => (
+					<TabsContent key={i} value={`update-${i}`}>
+						<>
+							<Tabs defaultValue="game" className="w-full">
+								<div className="w-full flex items-center justify-center">
+									<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
+										<TabsTrigger value="game">Base game</TabsTrigger>
+										{!noAudio && (
+											<>
+												<TabsTrigger value="english">English</TabsTrigger>
+												<TabsTrigger value="chinese">Chinese</TabsTrigger>
+												<TabsTrigger value="japanese">Japanese</TabsTrigger>
+												<TabsTrigger value="korean">Korean</TabsTrigger>
+											</>
+										)}
+									</TabsList>
+								</div>
+
+								<Line />
+
+								<TabsContent value="game">
+									<PackagesRenderer packages={infos.patches[i].game_pkgs} version={infos.patches[i].version} />
+								</TabsContent>
+
+								{!noAudio && (
+									<>
+										{audioHelp.map((e: any) => (
+											<TabsContent key={e[0]} value={e[0]}>
+												<PackagesRenderer packages={[infos.patches[i].audio_pkgs[e[1]]]} version={infos.patches[i].version} />
+											</TabsContent>
+										))}
+									</>
+								)}
+							</Tabs>
+						</>
+					</TabsContent>
+				))}
+			</Tabs>
+		</>
 	)
 }

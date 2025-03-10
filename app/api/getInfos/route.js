@@ -37,6 +37,14 @@ export async function GET(request) {
         patch["audio_pkgs"] = convertAudioPkgs(patch["audio_pkgs"])
     });
 
+    if (output[0]["pre_download"]["major"] != undefined) {
+        output[0]["pre_download"]["major"]["audio_pkgs"] = convertAudioPkgs(output[0]["pre_download"]["major"]["audio_pkgs"])
+        output[0]["pre_download"]["patches"].forEach(patch => {
+            patch["audio_pkgs"] = convertAudioPkgs(patch["audio_pkgs"])
+        });
+    }
+    
+
     function removeResListUrl(obj) {
         if (typeof obj !== "object" || obj === null) return obj;
         if (Array.isArray(obj)) return obj.map(removeResListUrl);
