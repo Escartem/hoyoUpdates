@@ -6,13 +6,29 @@ export async function GET(request) {
 	const res = await fetch(`https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=${gameId}&launcher_id=${launcherId}`)
 	.catch(error => {return new Response(error)})
 
-    const data = await res.json()
+    let data = await res.json()
 
     if (data.retcode !== 0) {
         return new Response(JSON.stringify({}));
     }
 
     let output = [{}]
+
+    // update versions
+    function modifyVersions(obj) {
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                if (key === "version" && typeof obj[key] === "string") {
+                    obj[key] = obj[key].replace(/(\d+\.\d+)\.\d+$/, "$1");
+                } else if (typeof obj[key] === "object") {
+                    modifyVersions(obj[key]);
+                }
+            }
+        }
+        return obj;
+    }
+
+    data = modifyVersions(data)
 
     // process packages
     output[0]["current"] = data.data.game_packages[0].main
