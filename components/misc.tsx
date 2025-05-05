@@ -36,7 +36,7 @@ export function Header() {
 export function Container({children}: {children: React.ReactNode}) {
     return (
         <>
-            <div className="z-[1] w-full max-w-[500px] bg-[#2f2f2f] p-6 rounded-md border-2 border-neutral-600 shadow-2xl backdrop-blur-[7px]">
+            <div className="z-[1] w-full max-w-[500px] max-h-[90%] overflow-y-auto bg-[#2f2f2f] p-6 rounded-md border-2 border-neutral-600 shadow-2xl backdrop-blur-[7px]">
                 <Header />
 
                 {children}
