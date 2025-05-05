@@ -21,7 +21,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 	useEffect(() => {
 		if (gameInfos.length === 0) return;
-		if (Object.keys(gameInfos[0].current.major.audio_pkgs).length === 0) {
+		if (Object.keys(gameInfos[0].current.major?.audio_pkgs || {}).length === 0) {
 			setNoAudio(true);
 		}
 	}, [gameInfos])
@@ -47,25 +47,35 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 					<Line />
 
-					<Tabs defaultValue="current" className="w-full">
-						{
-							gameInfos[0].pre_download.major != null && (
-								<div className="w-full flex items-center justify-center">
-									<TabsList className="border-2 border-neutral-700">
-										<TabsTrigger value="current">Current version</TabsTrigger>
-										<TabsTrigger value="pre">Pre-download</TabsTrigger>
-									</TabsList>
-								</div>
-							)
-						}
+					{gameInfos[0].current.major == null && (
+						<div className="flex items-center w-full justify-center">
+							<span className="bold text-xl">No data ⊙﹏⊙∥</span>
+						</div>
+					)}
 
-						<TabsContent value="current">
-							<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={false} />
-						</TabsContent>
-						<TabsContent value="pre">
-							<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={true} />
-						</TabsContent>
-					</Tabs>
+					{gameInfos[0].current.major != null && (
+						<Tabs defaultValue="current" className="w-full">
+							{
+								gameInfos[0].pre_download.major != null && (
+									<div className="w-full flex items-center justify-center">
+										<TabsList className="border-2 border-neutral-700">
+											<TabsTrigger value="current">Current version</TabsTrigger>
+											<TabsTrigger value="pre">Pre-download</TabsTrigger>
+										</TabsList>
+									</div>
+								)
+							}
+
+							<TabsContent value="current">
+								<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={false} />
+							</TabsContent>
+							<TabsContent value="pre">
+								<DisplayTabs gameInfos={gameInfos} noAudio={noAudio} audioHelp={audioHelp} isPre={true} />
+							</TabsContent>
+						</Tabs>
+					)}
+
+					
 
 					<Line />
 					

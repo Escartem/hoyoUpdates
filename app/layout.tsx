@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
+import GlobalWarning from "@/components/global-warning";
 
 export const metadata: Metadata = {
 	title: "HoyoUpdates",
@@ -17,6 +18,7 @@ export default function RootLayout({
 			<body>
 				<ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
 					<div className="w-full h-full font-[ProductSans]">
+						<GlobalWarning />
 						{children}
 					</div>
 				</ThemeProvider>

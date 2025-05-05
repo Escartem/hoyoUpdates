@@ -83,6 +83,20 @@ body {
   }
 }
 
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,.2);
+	border-radius: 30px
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(255,255,255,.5)
+}
+
 @font-face {
 	font-family: "ProductSans";
 	src: url("/fonts/ProductSansRegular.ttf") format("truetype");
