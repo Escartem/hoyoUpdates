@@ -20,7 +20,7 @@ export default function PackagesRenderer({packages, version, sophon}: {packages:
                 <>
                     <span>This is a sophon package, in order to download the file, please use <a className="underline" href="https://github.com/Escartem/SophonDownloader">SophonDownloader</a> and run it using :</span>
                     <div className="p-2 select-all mt-2 bg-[#1a1a1a] rounded-md border-2 border-white/20 w-full overflow-x-auto text-nowrap">
-                        <span className="w-full font-mono">{`Sophon.Downloader.exe ${packages[0][0]} ${version} ${packages[0][1]} output --matchingField=${packages[0][2]}`}</span>
+                        <span className="w-full font-mono">{`Sophon.Downloader.exe update ${packages[0][0]} ${version} ${packages[0][1]} output --matchingField=${packages[0][2]}`}</span>
                     </div>
                 </>
             )}
