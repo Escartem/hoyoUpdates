@@ -1,9 +1,23 @@
+import { data } from "framer-motion/client";
+
 export async function GET(request) {
 	const { searchParams } = new URL(request.url);
 	let launcherId = searchParams.get("launcher");
     let gameId = searchParams.get("game");
 
-	const res = await fetch(`https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=${gameId}&launcher_id=${launcherId}`)
+    const sophonGames = [
+        "gopR6Cufr3" // hk4e
+    ]
+
+    var sophon = false;
+
+    let url = `https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?game_ids[]=${gameId}&launcher_id=${launcherId}`;
+    if (sophonGames.includes(gameId)) {
+        sophon = true;
+        url = `https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGameBranches?game_ids[]=${gameId}&launcher_id=${launcherId}`;
+    }
+
+	const res = await fetch(url)
 	.catch(error => {return new Response(error)})
 
     let data = await res.json()
@@ -12,7 +26,53 @@ export async function GET(request) {
         return new Response(JSON.stringify({}));
     }
 
-    let output = [{}]
+    let output = [{
+        "sophon": false,
+        "current": null,
+        "pre_download": null
+    }]
+
+    //sophon
+    if (sophon) {
+        // hardcoded lmao, too lazy to fix my code to make it dynamic
+        let sophonData = [{
+            "sophon": true,
+            "current": {
+                "major": {
+                    "version": data.data.game_branches[0].main.tag,
+                    "game_pkgs": [],
+                    "audio_pkgs": {
+                        "en-us": [],
+                        "ja-jp": [],
+                        "ko-kr": [],
+                        "zh-cn": []
+                    }
+                },
+                "patches": []
+            },
+            "pre_download": {
+                "major": null,
+                "patches": []
+            }
+        }];
+
+        for (const elem of data.data.game_branches[0].main.diff_tags) {
+            let patch = {
+                "version": elem,
+                "game_pkgs": [[gameId, data.data.game_branches[0].main.tag, "game"]],
+                "audio_pkgs": {
+                    "en-us": [gameId, data.data.game_branches[0].main.tag, "en-us"],
+                    "ja-jp": [gameId, data.data.game_branches[0].main.tag, "ja-jp"],
+                    "ko-kr": [gameId, data.data.game_branches[0].main.tag, "ko-kr"],
+                    "zh-cn": [gameId, data.data.game_branches[0].main.tag, "zh-cn"],
+                }
+            }
+
+            sophonData[0].current.patches.push(patch);
+        }
+
+        return new Response(JSON.stringify(sophonData));
+    }
 
     // update versions
     function modifyVersions(obj) {

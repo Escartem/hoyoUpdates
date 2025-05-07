@@ -4,7 +4,7 @@ import { OctagonAlert, X } from "lucide-react";
 import { useState } from "react";
 
 export default function GlobalWarning() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const textColor = "text-black";
 

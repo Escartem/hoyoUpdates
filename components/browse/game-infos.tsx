@@ -21,6 +21,9 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 	useEffect(() => {
 		if (gameInfos.length === 0) return;
+		if (gameInfos[0].sophon) {
+			return;
+		};
 		if (Object.keys(gameInfos[0].current.major?.audio_pkgs || {}).length === 0) {
 			setNoAudio(true);
 		}
@@ -46,7 +49,7 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 					</div>
 
 					<Line />
-
+					
 					{gameInfos[0].current.major == null && (
 						<div className="flex items-center w-full justify-center">
 							<span className="bold text-xl">No data ⊙﹏⊙∥</span>
@@ -91,10 +94,12 @@ function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, no
 	
 	return (
 		<>
-			<Tabs defaultValue="full" className="w-full">
+			<Tabs defaultValue={gameInfos[0].sophon ? "update-0" : "full"} className="w-full">
 				<div className="w-full flex items-center justify-center">
 					<TabsList className="border-2 border-neutral-700">
-						<TabsTrigger value="full">Live game</TabsTrigger>
+						{!gameInfos[0].sophon && (
+							<TabsTrigger value="full">Live game</TabsTrigger>
+						)}
 
 						{infos.patches.map((e: any, i: number) => (
 							<TabsTrigger key={i} value={`update-${i}`}>{infos.patches[i].version} -&gt; {infos.major.version}</TabsTrigger>
@@ -159,14 +164,14 @@ function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, no
 								<Line />
 
 								<TabsContent value="game">
-									<PackagesRenderer packages={infos.patches[i].game_pkgs} version={infos.patches[i].version} />
+									<PackagesRenderer packages={infos.patches[i].game_pkgs} version={infos.patches[i].version} sophon={gameInfos[0].sophon} />
 								</TabsContent>
 
 								{!noAudio && (
 									<>
 										{audioHelp.map((e: any) => (
 											<TabsContent key={e[0]} value={e[0]}>
-												<PackagesRenderer packages={[infos.patches[i].audio_pkgs[e[1]]]} version={infos.patches[i].version} />
+												<PackagesRenderer packages={[infos.patches[i].audio_pkgs[e[1]]]} version={infos.patches[i].version} sophon={gameInfos[0].sophon} />
 											</TabsContent>
 										))}
 									</>
