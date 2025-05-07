@@ -35,17 +35,19 @@ export async function GET(request) {
     //sophon
     if (sophon) {
         // hardcoded lmao, too lazy to fix my code to make it dynamic
+        const latestTag = data.data.game_branches[0].main.tag;
+
         let sophonData = [{
             "sophon": true,
             "current": {
                 "major": {
-                    "version": data.data.game_branches[0].main.tag,
-                    "game_pkgs": [],
+                    "version": latestTag,
+                    "game_pkgs": [[gameId, latestTag, "game", "full"]],
                     "audio_pkgs": {
-                        "en-us": [],
-                        "ja-jp": [],
-                        "ko-kr": [],
-                        "zh-cn": []
+                        "en-us": [gameId, latestTag, "en-us", "full"],
+                        "ja-jp": [gameId, latestTag, "ja-jp", "full"],
+                        "ko-kr": [gameId, latestTag, "ko-kr", "full"],
+                        "zh-cn": [gameId, latestTag, "zh-cn", "full"]
                     }
                 },
                 "patches": []
@@ -59,12 +61,12 @@ export async function GET(request) {
         for (const elem of data.data.game_branches[0].main.diff_tags) {
             let patch = {
                 "version": elem,
-                "game_pkgs": [[gameId, data.data.game_branches[0].main.tag, "game"]],
+                "game_pkgs": [[gameId, latestTag, "game", "update"]],
                 "audio_pkgs": {
-                    "en-us": [gameId, data.data.game_branches[0].main.tag, "en-us"],
-                    "ja-jp": [gameId, data.data.game_branches[0].main.tag, "ja-jp"],
-                    "ko-kr": [gameId, data.data.game_branches[0].main.tag, "ko-kr"],
-                    "zh-cn": [gameId, data.data.game_branches[0].main.tag, "zh-cn"],
+                    "en-us": [gameId, latestTag, "en-us", "update"],
+                    "ja-jp": [gameId, latestTag, "ja-jp", "update"],
+                    "ko-kr": [gameId, latestTag, "ko-kr", "update"],
+                    "zh-cn": [gameId, latestTag, "zh-cn", "update"],
                 }
             }
 

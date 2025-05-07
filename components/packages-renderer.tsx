@@ -1,10 +1,39 @@
+"use client";
+
 import { convertSize } from "@/lib/helpers";
-import { FolderArchive } from "lucide-react";
+import { Check, Copy, FolderArchive } from "lucide-react";
+import { useState } from "react";
 import { Tooltip } from "react-tooltip";
 
 export default function PackagesRenderer({packages, version, sophon}: {packages: any, version: string, sophon?: boolean}) {
     const sum = (arr: any, off: string) => arr.map((e: any) => e[off]).reduce((a: any, b: any) => a + parseInt(b), 0);
     
+    const [copy, setCopy] = useState(false);
+
+    let sophonText = "";
+    if (sophon) {
+        if (packages[0][3] == "update") {
+            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${version} ${packages[0][1]} output --matchingField=${packages[0][2]}`;
+        }
+        else if (packages[0][3] == "full") {
+            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${packages[0][1]} output --matchingField=${packages[0][2]}`;
+        }
+    }
+
+    const handleCopy = () => {
+        try {
+            navigator.clipboard.writeText(sophonText);
+        } catch (err) {
+            console.error("Failed to copy: ", err);
+            return;
+        }
+        
+        setCopy(true);
+        setTimeout(() => {
+            setCopy(false);
+        }, 2000);
+    }
+
     return (
         <>
             <ul>
@@ -19,8 +48,17 @@ export default function PackagesRenderer({packages, version, sophon}: {packages:
             {sophon && (
                 <>
                     <span>This is a sophon package, in order to download the file, please use <a className="underline" href="https://github.com/Escartem/SophonDownloader">SophonDownloader</a> and run it using :</span>
-                    <div className="p-2 select-all mt-2 bg-[#1a1a1a] rounded-md border-2 border-white/20 w-full overflow-x-auto text-nowrap">
-                        <span className="w-full font-mono">{`Sophon.Downloader.exe update ${packages[0][0]} ${version} ${packages[0][1]} output --matchingField=${packages[0][2]}`}</span>
+                    <div className="flex items-center mt-2">
+                        <div className="h-[48px] p-2 select-all bg-[#1a1a1a] rounded-tl-md rounded-bl-md border-2 border-white/20 w-full border-r-white/0 overflow-x-auto text-nowrap">
+                            <span className="w-full font-mono text-white/80">{sophonText}</span>
+                        </div>
+                        <button onClick={handleCopy} disabled={copy} className="h-[48px] flex items-center justify-center text-white/40 hover:text-white/80 transition rounded-tr-md rounded-br-md border-2 border-white/20 aspect-square bg-[#1a1a1a]">
+                            {copy ? (
+                                <Check size={20} />
+                            ) : (
+                                <Copy size={20} />
+                            )}
+                        </button>
                     </div>
                 </>
             )}
