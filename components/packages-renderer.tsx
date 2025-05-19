@@ -13,10 +13,10 @@ export default function PackagesRenderer({packages, version, sophon}: {packages:
     let sophonText = "";
     if (sophon) {
         if (packages[0][3] == "update") {
-            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${version} ${packages[0][1]} output --matchingField=${packages[0][2]}`;
+            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${packages[0][2]} ${version} ${packages[0][1]} output`;
         }
         else if (packages[0][3] == "full") {
-            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${packages[0][1]} output --matchingField=${packages[0][2]}`;
+            sophonText = `Sophon.Downloader.exe ${packages[0][3]} ${packages[0][0]} ${packages[0][2]} ${packages[0][1]} output`;
         }
     }
 
