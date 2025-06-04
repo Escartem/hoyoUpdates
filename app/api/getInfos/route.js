@@ -35,7 +35,8 @@ export async function GET(request) {
     //sophon
     if (sophon) {
         // hardcoded lmao, too lazy to fix my code to make it dynamic
-        const latestTag = data.data.game_branches[0].main.tag;
+        let latestTag = data.data.game_branches[0].main.tag;
+        latestTag = latestTag.replace(/(\d+\.\d+)\.\d+$/, "$1"); // remove patch number
 
         let sophonData = [{
             "sophon": true,
@@ -60,7 +61,7 @@ export async function GET(request) {
 
         for (const elem of data.data.game_branches[0].main.diff_tags) {
             let patch = {
-                "version": elem,
+                "version": elem.replace(/(\d+\.\d+)\.\d+$/, "$1"),
                 "game_pkgs": [[gameId, latestTag, "game", "update"]],
                 "audio_pkgs": {
                     "en-us": [gameId, latestTag, "en-us", "update"],
