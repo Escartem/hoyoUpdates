@@ -2,11 +2,16 @@ import { useEffect } from "react";
 import { Container, Line, Loader } from "@/components/misc";
 import { BButton, DButton } from "@/components/buttons";
 import Image from "next/image";
+import { fetch } from '@tauri-apps/plugin-http';
+import { Braces } from "lucide-react";
 
 export default function GameList({launcherId, games, setGames, setSelectedGame, setAppState, setBackground}: {launcherId: string, games: any, setGames: (games: any) => void, setSelectedGame: (game: string) => void, setAppState: (state: number) => void, setBackground: (url: string) => void}) {
+	const isDesktop = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+	const urlBase = isDesktop ? "https://hoyo-updates.vercel.app" : "";
+
 	useEffect(() => {
 		if (games.length !== 0) return;
-		fetch(`/api/getGames?launcher=${launcherId}`)
+		fetch(`${urlBase}/api/getGames?launcher=${launcherId}`)
 		.then(res => res.json())
 		.then(data => {
 			if (Object.keys(data).length === 0) {
@@ -49,7 +54,10 @@ export default function GameList({launcherId, games, setGames, setSelectedGame, 
 
 					<Line />
 
-					<BButton callback={goBack} text="Change launcher id" />
+					<BButton callback={goBack}>
+						<Braces />
+						Change launcher ID
+					</BButton>
 				</>
 			)}
 		</Container>

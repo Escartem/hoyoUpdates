@@ -4,16 +4,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PackagesRenderer from "@/components/packages-renderer";
 import { BButton } from "@/components/buttons";
 import Image from "next/image";
+import { fetch } from '@tauri-apps/plugin-http';
+import { FolderOpen, List, LoaderCircle } from "lucide-react";
 
-export default function GameInfos({setAppState, launcherId, selectedGame, games, setBackground}: {setAppState: (state: number) => void, launcherId: string, selectedGame: string, games: any, setBackground: (url: string) => void}) {
-	const [gameInfos, setGameInfos] = useState<any>([]);
+export default function GameInfos({setAppState, launcherId, selectedGame, games, setBackground, gameInfos, setGameInfos}: {setAppState: (state: number) => void, launcherId: string, selectedGame: string, games: any, setBackground: (url: string) => void, gameInfos: any, setGameInfos: any}) {
+	const isDesktop = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+	const urlBase = isDesktop ? "https://hoyo-updates.vercel.app" : "";
+	
+	// const [gameInfos, setGameInfos] = useState<any>([]);
 	const [noAudio, setNoAudio] = useState(false);
 
 	const audioHelp = [["english", "en-us"], ["chinese", "zh-cn"], ["japanese", "ja-jp"], ["korean", "ko-kr"]];
 
 	useEffect(() => {
 		if (gameInfos.length !== 0) return;
-		fetch(`/api/getInfos?launcher=${launcherId}&game=${games[0][selectedGame].id}`)
+		fetch(`${urlBase}/api/getInfos?launcher=${launcherId}&game=${games[0][selectedGame].id}`)
 		.then(res => res.json())
 		.then(data => setGameInfos(data))
 		.catch(err => console.error(err));
@@ -31,8 +36,13 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 	const goBack = () => {
 		// lazy to clear selected game
+		setGameInfos([]);
 		setBackground("/background.webp");
 		setAppState(1);
+	}
+
+	const browseFiles = () => {
+		setAppState(3);
 	}
 
 	return (
@@ -81,8 +91,18 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 					
 
 					<Line />
+
+					{selectedGame != "bh3_global" && (
+						<BButton callback={() => {browseFiles()}} className="mb-2">
+							<FolderOpen />
+							Browse files
+						</BButton>
+					)}
 					
-					<BButton callback={goBack} text="Go back to game list" />
+					<BButton callback={goBack}>
+						<List />
+						Go back to game list
+					</BButton>
 				</>
 			)}
 		</Container>

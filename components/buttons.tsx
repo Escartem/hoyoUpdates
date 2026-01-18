@@ -1,11 +1,12 @@
+import React from "react";
 import { Button } from "./ui/button";
 
 // i just can't decide myself between using a button, div, span for clickable elements, don't judge me
 
-export function BButton({callback, text, disabled}: {callback: () => void, text: string, disabled?: boolean}) {
+export function BButton({callback, children, disabled, className}: {callback: () => void, children: React.ReactNode, disabled?: boolean, className?: string}) {
     return (
         <>
-            <Button disabled={disabled} onClick={callback} className="w-full hover:brightness-[1.3] transition border-2 border-neutral-700" variant={"secondary"}>{text}</Button>
+            <Button disabled={disabled} onClick={callback} className={`w-full hover:brightness-[1.3] transition border-2 border-neutral-700 ${className}`} variant={"secondary"}>{children}</Button>
         </>
     )
 }

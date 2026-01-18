@@ -1,3 +1,5 @@
+const isTauri = process.env.TAURI_BUILD === 'true';
+
 module.exports = {
     images: {
         remotePatterns: [
@@ -8,5 +10,6 @@ module.exports = {
             }
         ],
         unoptimized: true
-    }
+    },
+    output: isTauri ? 'export' : undefined,
 }
