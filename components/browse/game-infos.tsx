@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PackagesRenderer from "@/components/packages-renderer";
 import { BButton } from "@/components/buttons";
 import Image from "next/image";
+import { FolderOpen, List, LoaderCircle } from "lucide-react";
 
 export default function GameInfos({setAppState, launcherId, selectedGame, games, setBackground}: {setAppState: (state: number) => void, launcherId: string, selectedGame: string, games: any, setBackground: (url: string) => void}) {
 	const [gameInfos, setGameInfos] = useState<any>([]);
@@ -82,7 +83,10 @@ export default function GameInfos({setAppState, launcherId, selectedGame, games,
 
 					<Line />
 					
-					<BButton callback={goBack} text="Go back to game list" />
+					<BButton callback={goBack}>
+						<List />
+						Go back to game list
+					</BButton>
 				</>
 			)}
 		</Container>
@@ -95,7 +99,7 @@ function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, no
 	return (
 		<>
 			<Tabs defaultValue="full" className="w-full">
-				<div className="w-full flex items-center justify-center">
+				<div className={`w-full flex items-center justify-center ${infos.patches.length == 0 ? "hidden" : ""}`}>
 					<TabsList className="border-2 border-neutral-700">
 						<TabsTrigger value="full">Live game</TabsTrigger>
 
@@ -108,7 +112,7 @@ function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, no
 				<TabsContent value="full">
 					<>
 						<Tabs defaultValue="game" className="w-full">
-							<div className="w-full flex items-center justify-center">
+							<div className={`w-full flex items-center justify-center ${noAudio ? "hidden" : ""}`}>
 								<TabsList className="border-2 border-neutral-700 overflow-x-auto overflow-y-hidden">
 									<TabsTrigger value="game">Base game</TabsTrigger>
 									{!noAudio && (
@@ -121,8 +125,10 @@ function DisplayTabs({gameInfos, noAudio, audioHelp, isPre}: {gameInfos: any, no
 									)}
 								</TabsList>
 							</div>
-
-							<Line />
+							
+							{!(infos.patches.length == 0 && noAudio) && (
+								<Line />
+							)}
 
 							<TabsContent value="game">
 								<PackagesRenderer packages={infos.major.game_pkgs} version={infos.major.version} sophon={gameInfos[0].sophon} />

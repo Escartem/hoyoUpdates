@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Container, Line, Loader } from "@/components/misc";
 import { BButton, DButton } from "@/components/buttons";
 import Image from "next/image";
+import { Braces } from "lucide-react";
 
 export default function GameList({launcherId, games, setGames, setSelectedGame, setAppState, setBackground}: {launcherId: string, games: any, setGames: (games: any) => void, setSelectedGame: (game: string) => void, setAppState: (state: number) => void, setBackground: (url: string) => void}) {
 	useEffect(() => {
@@ -49,7 +50,10 @@ export default function GameList({launcherId, games, setGames, setSelectedGame, 
 
 					<Line />
 
-					<BButton callback={goBack} text="Change launcher id" />
+					<BButton callback={goBack}>
+						<Braces />
+						Change launcher ID
+					</BButton>
 				</>
 			)}
 		</Container>

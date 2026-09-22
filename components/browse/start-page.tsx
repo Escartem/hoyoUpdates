@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container } from "@/components/misc";
 import { Input } from "@/components/ui/input";
 import { BButton } from "@/components/buttons";
+import { Play } from "lucide-react";
 
 export default function StartPage({setLauncherId, appState, setState}: {setLauncherId: (id: string) => void, appState: number, setState: (state: number) => void}) {
 	const [typed, setTyped] = useState("");
@@ -22,7 +23,10 @@ export default function StartPage({setLauncherId, appState, setState}: {setLaunc
 			)}
 			<Input onChange={(e) => {setButtonDisabled(e.target.value === ""); setTyped(e.target.value)}} className="mt-4 mb-4 w-full" placeholder="Launcher id"></Input>
 			
-			<BButton callback={handleClick} disabled={buttonDisabled} text="Start" />
+			<BButton callback={handleClick} disabled={buttonDisabled}>
+				<Play />
+				Start
+			</BButton>
 		</Container>
 	)
 }

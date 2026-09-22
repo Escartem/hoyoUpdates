@@ -6,7 +6,8 @@ export async function GET(request) {
     let gameId = searchParams.get("game");
 
     const sophonGames = [
-        "gopR6Cufr3" // hk4e
+        "gopR6Cufr3", // hk4e
+        "4ziysqXOQ8" // hkrpg
     ]
 
     var sophon = false;

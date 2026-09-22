@@ -13,13 +13,19 @@ export async function GET(request) {
 
     // format data
     let output = [{}]
+    const skippedGames = [
+        "viiywh5G2H", // hyg
+        "yneO4yGc4x", // abs
+    ]
 
     for (const game of data.data.games) {
-        output[0][game.biz] = {
-            id: game.id,
-            name: game.display.name,
-            icon: game.display.icon.url,
-            background: game.display.background.url
+        if (!skippedGames.includes(game.id)) {
+            output[0][game.biz] = {
+                id: game.id,
+                name: game.display.name,
+                icon: game.display.icon.url,
+                background: game.display.background.url
+            }
         }
     }
 
